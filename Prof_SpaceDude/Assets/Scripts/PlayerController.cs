@@ -19,8 +19,7 @@ public class PlayerController : MonoBehaviour
         //float h = Input.GetAxis("Horizontal");
         //float v = Input.GetAxis("Vertical");
         float h = Input.acceleration.x;
-        //QUIZ: fill this in so atro moves up down when you tilt phone.
-        float v = 0;
+        float v = Input.acceleration.y;
         myBod.velocity = 5 * (new Vector2(h, v));
 
         Touch[] fingers = Input.touches;
