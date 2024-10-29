@@ -21,26 +21,5 @@ public class PlayerController : MonoBehaviour
         float h = Input.acceleration.x;
         float v = Input.acceleration.y;
         myBod.velocity = 5 * (new Vector2(h, v));
-
-        Touch[] fingers = Input.touches;
-        print(fingers.Length);
-
-        if(fingers.Length > 0) {
-            Touch t = fingers[0];
-            if(t.phase == TouchPhase.Began) {
-                print("Touchdown:" + t.position);
-            }
-            else if(t.phase == TouchPhase.Moved) {
-                print("Dragging" + t.position);
-            }
-            else if (t.phase == TouchPhase.Ended) {
-                print("Lift Off" + t.position); 
-            }
-        }
-
-
-
-
-
     }
 }

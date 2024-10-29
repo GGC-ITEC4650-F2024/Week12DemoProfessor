@@ -4,29 +4,63 @@ using UnityEngine;
 
 public class ShotController : MonoBehaviour
 {
+    public GameObject bulletPrefab;
+    public float bulletSpeed;
+
     //CONTROL THE LINE WITH TOUCH
+    LineRenderer myLine;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        myLine = GetComponentInChildren<LineRenderer>();
+        //hide the line by setting endpoints to the same spot
+        myLine.SetPosition(0, Vector3.zero);
+        myLine.SetPosition(1, Vector3.zero);
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.touches.Length > 0)
+        Touch[] fingers = Input.touches;
+        if (fingers.Length > 0)
         {
-            Ray r = Camera.main.ScreenPointToRay(Input.touches[0].position);
-            RaycastHit hitInfo;
-            /*
-            if (Physics2D.Raycast(r);
+            Touch t = fingers[0];
+            Vector3 fingerPos = scenePos(t.position);
+            if (t.phase == TouchPhase.Began)
             {
-                GameObject g = hitInfo.collider.gameObject;
-                transform.position = hitInfo.point + 0.1f * Vector3.up;
+                myLine.SetPosition(0, fingerPos);
+                myLine.SetPosition(1, fingerPos);
             }
-            */
+            else if (t.phase == TouchPhase.Moved)
+            {
+                myLine.SetPosition(1, fingerPos);
+                Vector3 dir = myLine.GetPosition(1) - myLine.GetPosition(0);
+                transform.right = dir;
+            }
+            else if (t.phase == TouchPhase.Ended)
+            {
+                Vector3 dir = myLine.GetPosition(1) - myLine.GetPosition(0);
+                shoot(dir);
+
+                myLine.SetPosition(0, Vector3.zero);
+                myLine.SetPosition(1, Vector3.zero);
+            }
         }
+    }
+
+    private void shoot(Vector3 v) {
+        GameObject bullet = GameObject.Instantiate(bulletPrefab, 
+            transform.position + transform.right, Quaternion.identity);
+        
+        Rigidbody2D bod = bullet.GetComponent<Rigidbody2D>();
+        bod.velocity = v * bulletSpeed;
+    }
+
+    private Vector3 scenePos(Vector3 screenPos)
+    {
+        Ray r = Camera.main.ScreenPointToRay(screenPos);
+        RaycastHit2D hitInfo = Physics2D.Raycast(r.origin, r.direction);
+        return hitInfo.point;
     }
 }
