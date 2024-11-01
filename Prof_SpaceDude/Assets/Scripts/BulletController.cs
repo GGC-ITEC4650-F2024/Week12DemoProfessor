@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
+    public GameObject immuneGO;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,8 @@ public class BulletController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        //Destroy(gameObject);
+        if(col.gameObject != immuneGO) {
+            Destroy(gameObject);
+        }
     }
 }

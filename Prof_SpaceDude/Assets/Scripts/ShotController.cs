@@ -63,6 +63,10 @@ public class ShotController : MonoBehaviour
         GameObject bullet = GameObject.Instantiate(bulletPrefab,
             transform.position + transform.right, Quaternion.identity);
         bullet.transform.localScale = new Vector3(v.magnitude, v.magnitude, v.magnitude);
+        
+        //set the player as immune from this bullet.
+        bullet.GetComponent<BulletController>().immuneGO = gameObject;
+        
         Rigidbody2D bod = bullet.GetComponent<Rigidbody2D>();
         bod.velocity = v * bulletSpeed;
     }
