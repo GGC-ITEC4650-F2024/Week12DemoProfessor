@@ -18,6 +18,6 @@ public class BulletController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }

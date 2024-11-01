@@ -6,9 +6,11 @@ public class ShotController : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public float bulletSpeed;
+    public float knockBackPower;
 
     //CONTROL THE LINE WITH TOUCH
     LineRenderer myLine;
+    Rigidbody2D myBod;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +19,8 @@ public class ShotController : MonoBehaviour
         //hide the line by setting endpoints to the same spot
         myLine.SetPosition(0, Vector3.zero);
         myLine.SetPosition(1, Vector3.zero);
+
+        myBod = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -40,9 +44,11 @@ public class ShotController : MonoBehaviour
             }
             else if (t.phase == TouchPhase.Ended)
             {
-                Vector3 dir = myLine.GetPosition(1) - myLine.GetPosition(0);
-                shoot(dir);
+                Vector3 lineVec = myLine.GetPosition(1) - myLine.GetPosition(0);
+                shoot(lineVec);
 
+                myBod.AddForce(-1 * lineVec * knockBackPower, ForceMode2D.Impulse);
+                
                 myLine.SetPosition(0, Vector3.zero);
                 myLine.SetPosition(1, Vector3.zero);
             }

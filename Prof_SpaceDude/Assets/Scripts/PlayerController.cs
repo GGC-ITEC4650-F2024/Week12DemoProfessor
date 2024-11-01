@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D myBod;
 
+    public float power;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,11 +17,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print(Input.acceleration);
-        //float h = Input.GetAxis("Horizontal");
-        //float v = Input.GetAxis("Vertical");
         float h = Input.acceleration.x;
         float v = Input.acceleration.y;
-        myBod.velocity = 5 * (new Vector2(h, v));
+        //myBod.velocity = 5 * (new Vector2(h, v));
+        myBod.AddForce((new Vector2(h, v)) * Time.deltaTime * power);
     }
 }
