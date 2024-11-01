@@ -47,18 +47,22 @@ public class ShotController : MonoBehaviour
                 Vector3 lineVec = myLine.GetPosition(1) - myLine.GetPosition(0);
                 shoot(lineVec);
 
-                myBod.AddForce(-1 * lineVec * knockBackPower, ForceMode2D.Impulse);
-                
+                if (fingers.Length == 1)
+                {
+                    myBod.AddForce(-1 * lineVec * knockBackPower, ForceMode2D.Impulse);
+                }
+
                 myLine.SetPosition(0, Vector3.zero);
                 myLine.SetPosition(1, Vector3.zero);
             }
         }
     }
 
-    private void shoot(Vector3 v) {
-        GameObject bullet = GameObject.Instantiate(bulletPrefab, 
+    private void shoot(Vector3 v)
+    {
+        GameObject bullet = GameObject.Instantiate(bulletPrefab,
             transform.position + transform.right, Quaternion.identity);
-        
+        bullet.transform.localScale = new Vector3(v.magnitude, v.magnitude, v.magnitude);
         Rigidbody2D bod = bullet.GetComponent<Rigidbody2D>();
         bod.velocity = v * bulletSpeed;
     }
